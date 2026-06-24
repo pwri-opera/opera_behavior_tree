@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+  For instructions on using Groot and description of the following BehaviorTree nodes,
+  please refer to the groot_instructions.md and README.md respectively located in the
+  nav2_behavior_tree package.
+-->
+<root BTCPP_format="4">
+  <TreeNodesModel>
+    <!-- ############################### ACTION NODES ################################# -->
+
+    <Action ID="WaitCustom">
+      <input_port name="wait_duration">Wait time</input_port>
+      <input_port name="server_name">Server name</input_port>
+      <input_port name="server_timeout">Server timeout</input_port>
+      <output_port name="error_code_id">Wait error code</output_port>
+      <output_port name="error_msg">Wait error message</output_port>
+    </Action>
+
+    <Action ID="EnableRouteSwitcher">
+      <input_port name="default_value">Default value</input_port>
+      <input_port name="topic_name">Topic name</input_port>
+      <output_port name="enable_route">Enable route server</output_port>
+    </Action>
+
+    <Action ID="CheckSafety">
+    </Action>
+
+    <Action ID="GetArea">
+      <input_port name="pose">Robot pose</input_port>
+      <output_port name="area_id">Area ID</output_port>
+    </Action>
+
+  </TreeNodesModel>
+</root>
