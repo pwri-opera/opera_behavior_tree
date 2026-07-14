@@ -28,6 +28,10 @@
     <Action ID="GetArea">
       <input_port name="pose">Robot pose</input_port>
       <output_port name="area_id">Area ID</output_port>
+      <output_port name="entry_node_id">Entry node ID</output_port>
+      <output_port name="exit_node_id">Exit node ID</output_port>
+      <output_port name="entry_node_pose">Entry node pose</output_port>
+      <output_port name="exit_node_pose">Exit node pose</output_port>
     </Action>
 
   </TreeNodesModel>

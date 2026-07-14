@@ -29,6 +29,10 @@ BT::NodeStatus GetAreaService::on_completion(
   // }
 
   setOutput("area_id", response->area_id);
+  setOutput("entry_node_id", response->entry_node_id);
+  setOutput("exit_node_id", response->exit_node_id);
+  setOutput("entry_node_pose", response->entry_node_pose);
+  setOutput("exit_node_pose", response->exit_node_pose);
 
   return BT::NodeStatus::SUCCESS;
 }
