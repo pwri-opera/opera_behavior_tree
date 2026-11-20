@@ -3,6 +3,8 @@ project(opera_behavior_tree CXX)
 
 find_package(ament_cmake REQUIRED)
 find_package(action_msgs REQUIRED)
+find_package(ament_index_cpp REQUIRED)
+find_package(com3_msgs REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav2_behavior_tree REQUIRED)
@@ -63,6 +65,18 @@ add_library(get_area_node SHARED plugins/action/get_area_node.cpp)
 list(APPEND plugin_libs get_area_node)
 
 
+add_library(align_path_orientations_bt_node SHARED plugins/action/align_path_orientations.cpp)
+list(APPEND plugin_libs align_path_orientations_bt_node)
+
+add_library(set_path_goal_orientation_bt_node SHARED plugins/action/set_path_goal_orientation.cpp)
+list(APPEND plugin_libs set_path_goal_orientation_bt_node)
+
+add_library(set_dump_angle_bt_node SHARED plugins/action/set_dump_angle_action.cpp)
+add_library(navigate_to_pose_goal_bt_node SHARED plugins/action/navigate_to_pose_goal_action.cpp)
+list(APPEND plugin_libs navigate_to_pose_goal_bt_node)
+add_library(set_swing_angle_bt_node SHARED plugins/action/set_swing_angle_action.cpp)
+list(APPEND plugin_libs set_dump_angle_bt_node set_swing_angle_bt_node)
+
 foreach(bt_plugin ${plugin_libs})
   target_include_directories(${bt_plugin}
     PRIVATE
@@ -84,9 +98,15 @@ foreach(bt_plugin ${plugin_libs})
     ${std_msgs_TARGETS}
     ${std_srvs_TARGETS}
     ${opera_bt_msgs_TARGETS}
+    ${com3_msgs_TARGETS}
   )
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
+
+add_executable(run_angle_tree src/run_angle_tree.cpp)
+target_link_libraries(run_angle_tree PRIVATE
+  behaviortree_cpp::behaviortree_cpp rclcpp::rclcpp ament_index_cpp::ament_index_cpp)
+install(TARGETS run_angle_tree DESTINATION lib/${PROJECT_NAME})
 
 install(TARGETS ${plugin_libs}
   EXPORT ${library_name}
@@ -124,6 +144,7 @@ ament_export_libraries(${library_name})
 
 ament_export_dependencies(
   action_msgs
+  com3_msgs
   behaviortree_cpp
   geometry_msgs
   nav2_behavior_tree
@@ -142,5 +163,17 @@ ament_export_dependencies(
   opera_bt_msgs
 )
 ament_export_targets(${library_name})
+
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_align_path_orientations test/test_align_path_orientations.cpp)
+  target_link_libraries(test_align_path_orientations align_path_orientations_bt_node)
+  target_compile_definitions(test_align_path_orientations PRIVATE
+    ALIGN_PLUGIN_PATH="$<TARGET_FILE:align_path_orientations_bt_node>")
+  ament_add_gtest(test_set_path_goal_orientation test/test_set_path_goal_orientation.cpp)
+  target_link_libraries(test_set_path_goal_orientation set_path_goal_orientation_bt_node)
+  target_compile_definitions(test_set_path_goal_orientation PRIVATE
+    GOAL_PLUGIN_PATH="$<TARGET_FILE:set_path_goal_orientation_bt_node>")
+endif()
 
 ament_package()

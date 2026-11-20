@@ -6,7 +6,41 @@
 -->
 <root BTCPP_format="4">
   <TreeNodesModel>
+    <Action ID="NavigateToPoseGoal">
+      <input_port name="x">Goal x [m]</input_port>
+      <input_port name="y">Goal y [m]</input_port>
+      <input_port name="yaw">Goal yaw [rad]</input_port>
+      <input_port name="frame_id" default="map">Goal frame</input_port>
+      <input_port name="server_name">Action server (default: navigate_to_pose)</input_port>
+      <input_port name="server_timeout">Goal acknowledgement/cancellation timeout [ms]</input_port>
+    </Action>
     <!-- ############################### ACTION NODES ################################# -->
+
+    <Action ID="SetDumpAngle">
+      <input_port name="target_angle">Target angle [rad]</input_port>
+      <input_port name="server_name">Action server name (default: set_dump_angle)</input_port>
+      <input_port name="server_timeout">Goal acknowledgement/cancellation timeout [ms]</input_port>
+      <output_port name="current_error">Server feedback error [rad]</output_port>
+    </Action>
+
+    <Action ID="SetSwingAngle">
+      <input_port name="target_angle">Target angle [rad]</input_port>
+      <input_port name="server_name">Action server name (default: set_swing_angle)</input_port>
+      <input_port name="server_timeout">Goal acknowledgement/cancellation timeout [ms]</input_port>
+      <output_port name="current_error">Server feedback error [rad]</output_port>
+    </Action>
+
+    <Action ID="SetPathGoalOrientation">
+      <input_port name="input_path">Smoothed path in the goal frame</input_port>
+      <input_port name="goal">Requested final goal pose</input_port>
+      <input_port name="position_tolerance" default="0.1">Maximum XY endpoint distance [m]; mismatch fails</input_port>
+      <output_port name="output_path">Terminal duplicates updated with normalized goal orientation</output_port>
+    </Action>
+
+    <Action ID="AlignPathOrientations">
+      <input_port name="input_path">Forward-only path</input_port>
+      <output_port name="output_path">Path with forward orientations; final pose preserved</output_port>
+    </Action>
 
     <Action ID="WaitCustom">
       <input_port name="wait_duration">Wait time</input_port>

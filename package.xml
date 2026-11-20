@@ -10,6 +10,8 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>action_msgs</depend>
+  <depend>ament_index_cpp</depend>
+  <depend>com3_msgs</depend>
   <depend>behaviortree_cpp</depend>
   <depend>geometry_msgs</depend>
   <depend>nav2_behavior_tree</depend>
@@ -27,6 +29,7 @@
   <depend>tf2_ros</depend>
   <depend>opera_bt_msgs</depend>
 
+  <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
