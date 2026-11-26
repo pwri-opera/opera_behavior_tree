@@ -38,8 +38,16 @@
     </Action>
 
     <Action ID="AlignPathOrientations">
-      <input_port name="input_path">Forward-only path</input_port>
-      <output_port name="output_path">Path with forward orientations; final pose preserved</output_port>
+      <input_port name="mode" default="forward">forward before smoothing; route_entry while following</input_port>
+      <input_port name="input_path">Path to orient; smoothed combined path in route_entry mode</input_port>
+      <input_port name="unsmoothed_path">route_entry only: combined path before smoothing, same count/order</input_port>
+      <input_port name="route_path">route_entry only: route body before first/last-mile concatenation</input_port>
+      <input_port name="current_pose">route_entry only: fresh robot pose in the path frame</input_port>
+      <input_port name="goal">route_entry only: navigation goal for preemption detection</input_port>
+      <input_port name="entry_tolerance" default="0.5">XY radius at the smoothed route start [m]</input_port>
+      <input_port name="tangent_distance" default="1.0">Entry direction chord over this arc length [m]</input_port>
+      <inout_port name="direction">route_entry only: undecided / forward / reverse; reset per session</inout_port>
+      <output_port name="output_path">Oriented path; final goal orientation preserved</output_port>
     </Action>
 
     <Action ID="WaitCustom">

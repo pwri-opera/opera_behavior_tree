@@ -170,6 +170,10 @@ if(BUILD_TESTING)
   target_link_libraries(test_align_path_orientations align_path_orientations_bt_node)
   target_compile_definitions(test_align_path_orientations PRIVATE
     ALIGN_PLUGIN_PATH="$<TARGET_FILE:align_path_orientations_bt_node>")
+  ament_add_gtest(test_align_path_route_entry test/test_align_path_route_entry.cpp)
+  target_link_libraries(test_align_path_route_entry align_path_orientations_bt_node)
+  target_compile_definitions(test_align_path_route_entry PRIVATE
+    ENTRY_PLUGIN_PATH="$<TARGET_FILE:align_path_orientations_bt_node>")
   ament_add_gtest(test_set_path_goal_orientation test/test_set_path_goal_orientation.cpp)
   target_link_libraries(test_set_path_goal_orientation set_path_goal_orientation_bt_node)
   target_compile_definitions(test_set_path_goal_orientation PRIVATE
